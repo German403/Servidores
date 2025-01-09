@@ -15,7 +15,7 @@ public class Client {
         }
     }
 
-    public static void receiveMessage(Socket socket){
+    public static void reciveMessage(Socket socket){
         // Recibir mensaje del servidor
         try {
             InputStream inputStream = socket.getInputStream();
@@ -40,7 +40,7 @@ public class Client {
             int num = sc.nextInt();
             sendMessage(num, socket);
 
-            receiveMessage(socket);
+            reciveMessage(socket);
 
         } catch (IOException e) {
             System.err.println("Error de conexión: " + e.getMessage());
