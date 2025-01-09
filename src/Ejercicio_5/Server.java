@@ -24,15 +24,13 @@ public class Server {
         return word;
     }
 
-    public static void sendWords(Socket clientSocket, ArrayList<String> words) {
-        for (String word : words) {
-            try {
-                OutputStream outputStream = clientSocket.getOutputStream();
-                PrintWriter writer = new PrintWriter(outputStream, true);
-                writer.println(word);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public static void sendWords(Socket clientSocket, String word) {
+        try {
+            OutputStream outputStream = clientSocket.getOutputStream();
+            PrintWriter writer = new PrintWriter(outputStream, true);
+            writer.println(word);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -53,8 +51,8 @@ public class Server {
                 }
                 System.out.println("La palabra enviada por el cliente: " + word);
                 words.add(word);
+                sendWords(clientSocket, word);
             }
-            sendWords(clientSocket, words);
         } catch (IOException e) {
             System.err.println("Error en el servidor: " + e.getMessage());
         }
