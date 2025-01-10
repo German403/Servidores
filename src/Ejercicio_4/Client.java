@@ -1,31 +1,37 @@
 package Ejercicio_4;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.Socket;
-import java.util.Scanner;
+import java.io.*;
+import java.net.*;
+import java.util.*;
 
 public class Client {
     public static void main(String[] args) {
-        final String SERVER_IP = "127.0.0.1"; // Dirección IP del servidor
-        final int SERVER_PORT = 12345; // Puerto del servidor
+         String serverIP = "127.0.0.1";//Dirección IP del servidor
+         int serverPORT = 12345;//Puerto del servidor
+        int numClientes;
 
-        System.out.println("Indique el numero de clientes");
-        Scanner sc = new Scanner(System.in);
-        int numClientes = sc.nextInt();
+        while (true) {
+            try{
+                System.out.println("Indique el numero de clientes");
+                Scanner sc = new Scanner(System.in);
+                numClientes = sc.nextInt();
+                break;
+            }catch (InputMismatchException e){
+                System.err.println("Escriba un numero entero, evite los decimales y los caracteres de texto");;
+            }//Fin try-catch
+        }//Fin while
+
 
         try {
             for (int i = 0; i < numClientes; i++) {
-                Thread cliente = new Thread(() -> connectToServer(SERVER_IP, SERVER_PORT));
+                Thread cliente = new Thread(() -> connectToServer(serverIP, serverPORT));
                 cliente.start();
                 cliente.join();
             }
         } catch (InterruptedException e) {
             System.err.println("Error al esperar la finalización de los hilos: " + e.getMessage());
-        }
-    }
+        }//Fin try-catch
+    }//Fin main
 
     private static void connectToServer(String serverIp, int serverPort) {
         try (Socket socket = new Socket(serverIp, serverPort)) {
@@ -35,6 +41,6 @@ public class Client {
             System.out.println(serverMessage);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-}
+        }//Fin try-catch
+    }//Fin metodo connectToServer
+}//Fin clase Client

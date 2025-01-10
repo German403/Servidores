@@ -1,17 +1,10 @@
 package Ejercicio_5;
 
-/*
-Usando sockets TCP realiza un programa cliente que introduzca cadenas por
-teclado hasta introducir un asterisco. Las cadenas se enviarán a un programa
-servidor. El programa servidor lo muestra en pantalla y lo devuelve al cliente. El
-cliente lo recibe y lo muestra en pantalla.
- */
-
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
 
 public class Server {
+
     public static String reciveWords(Socket clientSocket) {
         String word = "";
         try {
@@ -20,9 +13,9 @@ public class Server {
             word = reader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }//Fin try-catch
         return word;
-    }
+    }//Fin metodo reciveWords
 
     public static void sendWords(Socket clientSocket, String word) {
         try {
@@ -31,15 +24,14 @@ public class Server {
             writer.println(word);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
+        }//Fin try-catch
+    }//Fin metodo sendWords
 
     public static void main(String[] args) {
         String word;
-        ArrayList<String> words = new ArrayList<>();
-        int PORT = 12345;
+        int port = 12345;
 
-        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("Servidor iniciado. Esperando conexiones...");
             Socket clientSocket = serverSocket.accept();
 
@@ -48,13 +40,12 @@ public class Server {
                 if (word.equals("*")) {
                     System.out.println("El cliente ha cerrado la transmision de palabras");
                     break;
-                }
+                }//Fin if
                 System.out.println("La palabra enviada por el cliente: " + word);
-                words.add(word);
                 sendWords(clientSocket, word);
-            }
+            }//Fin while
         } catch (IOException e) {
             System.err.println("Error en el servidor: " + e.getMessage());
-        }
-    }
-}
+        }//Fin try-catch
+    }//Fin main
+}//Fin clase Server

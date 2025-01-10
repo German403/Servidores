@@ -9,27 +9,26 @@ puertos locales y remotos a los que está conectado su socket, y la dirección I
 máquina remota a la que se conecta.
  */
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
 
 public class Server {
     public static void main(String[] args) {
-        int PORT = 12345; // Puerto del servidor
+        int port = 12345;//Puerto del servidor
 
-        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("Servidor iniciado. Esperando conexiones...");
 
-            // Aceptar dos clientes
+            //Aceptar dos clientes
             for (int i = 1; i <= 2; i++) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Cliente " + i + " conectado:");
                 System.out.println("  Puerto local: " + clientSocket.getLocalPort());
                 System.out.println("  Puerto remoto: " + clientSocket.getPort());
-            }
+            }//Fin for
 
         } catch (IOException e) {
             System.err.println("Error en el servidor: " + e.getMessage());
-        }
-    }
-}
+        }//Fin try-catch
+    }//Fin main
+}//Fin clase Server

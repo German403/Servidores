@@ -1,18 +1,12 @@
 package Ejercicio_5;
 
 import java.io.*;
-import java.net.Socket;
-import java.util.Scanner;
+import java.net.*;
+import java.util.*;
 
 public class Client {
-    public static void sendWords(Socket socket) {
-        String word;
-        while (true) {
 
-        }
-    }
-
-    public static String receiveWord(Socket socket) {
+    public static String reciveWord(Socket socket) {
         String word = "";
         try {
             InputStream inputStream = socket.getInputStream();
@@ -20,18 +14,18 @@ public class Client {
             word = reader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }//Fin try-catch
         return word;
-    }
+    }//Fin metodo reciveWord
 
     public static void main(String[] args) {
-        String SERVER_IP = "127.0.0.1"; // Dirección IP del servidor
-        int SERVER_PORT = 12345; // Puerto del servidor
+        String serverIP = "127.0.0.1"; // Dirección IP del servidor
+        int serverPORT = 12345; // Puerto del servidor
         String word;
         String response;
         Scanner sc = new Scanner(System.in);
 
-        try (Socket socket = new Socket(SERVER_IP, SERVER_PORT)) {
+        try (Socket socket = new Socket(serverIP, serverPORT)) {
             System.out.println("Conectado al servidor: " + socket.getRemoteSocketAddress());
 
             while (true) {
@@ -43,15 +37,15 @@ public class Client {
                     writer.println(word);
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
+                }//Fin try-catch
                 if (word.equals("*")) {
                     break;
-                }
-                response = receiveWord(socket);
-                System.out.println("El servidor devuelve " + response);
-            }
+                }//Fin if
+                response = reciveWord(socket);
+                System.out.println("El servidor devuelve: " + response);
+            }//Fin while
         } catch (IOException e) {
             System.err.println("Error de conexión: " + e.getMessage());
-        }
-    }
-}
+        }//Fin try-catch
+    }//Fin main
+}//Fin clase Client

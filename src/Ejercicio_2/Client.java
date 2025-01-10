@@ -1,14 +1,14 @@
 package Ejercicio_2;
 
 import java.io.*;
-import java.net.Socket;
+import java.net.*;
 
 public class Client {
     public static void main(String[] args) {
-        String SERVER_IP = "127.0.0.1"; // Dirección IP del servidor
-        int SERVER_PORT = 12345; // Puerto del servidor
+        String serverIP = "127.0.0.1"; // Dirección IP del servidor
+        int serverPORT = 12345; // Puerto del servidor
 
-        try (Socket socket = new Socket(SERVER_IP, SERVER_PORT)) {
+        try (Socket socket = new Socket(serverIP, serverPORT)) {
             System.out.println("Conectado al servidor: " + socket.getRemoteSocketAddress());
 
             // Recibir mensaje del servidor
@@ -17,14 +17,14 @@ public class Client {
             String serverMessage = reader.readLine();
             System.out.println("Mensaje del servidor: " + serverMessage);
 
-            String clientMessage = serverMessage.toLowerCase();
+            //Enviar mensaje al servidor
+            String clientMessage = serverMessage.toLowerCase();//Convertimos los caracteres de la cadena a minuscula
             OutputStream outputStream = socket.getOutputStream();
             PrintWriter writer = new PrintWriter(outputStream, true);
             writer.println(clientMessage);
 
         } catch (IOException e) {
             System.err.println("Error de conexión: " + e.getMessage());
-        }
-
-    }
-}
+        }//Fin try-catch
+    }//Fn main
+}//Fin clase Client

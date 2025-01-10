@@ -8,23 +8,32 @@ con N clientes, siendo N un parámetro que tendrás que definir en el programa
  */
 
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.Scanner;
+import java.net.*;
+import java.util.*;
 
 public class Server {
-    public static void main(String[] args) {
-        int PORT = 12345;
 
-        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+    public static void main(String[] args) {
+        int port = 12345;
+        int numClientes;
+
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("Servidor iniciado. Esperando conexiones...");
 
-            System.out.println("Indique el numero de clientes");
-            Scanner sc = new Scanner(System.in);
-            int numClientes = sc.nextInt();
-            System.out.println("Se ha fijado un limite de " + numClientes + " clientes en el servidor");
+            while (true) {
+                try{
+                    //Elige el numero de clientes que tendra el servidor
+                    System.out.println("Indique el numero de clientes");
+                    Scanner sc = new Scanner(System.in);
+                    numClientes = sc.nextInt();
+                    System.out.println("Se ha fijado un limite de " + numClientes + " clientes en el servidor");
+                    break;
+                }catch (InputMismatchException e){
+                    System.err.println("Escriba un numero entero, evite los decimales y los caracteres de texto");;
+                }//Fin try-catch
+            }//Fin while
 
-            // Aceptar n clientes
+            //Aceptar n clientes
             for (int i = 1; i <= numClientes; i++) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Cliente " + i + " conectado");
@@ -37,10 +46,10 @@ public class Server {
                     writer.println(message);
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
-            }
+                }//Fin try-catch
+            }//Fin for
         } catch (IOException e) {
             System.err.println("Error en el servidor: " + e.getMessage());
-        }
-    }
-}
+        }//Fin try-catch
+    }//Fin main
+}//Fin clase Server
