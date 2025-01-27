@@ -16,21 +16,34 @@ public class ManejadorCliente implements Runnable {
 
     @Override
     public void run() {
+        String receivedMessage;
         try (
                 //Creamos los flujos de entrada y salida que utilizara el programa
                 DataInputStream entry = new DataInputStream(clientSocket.getInputStream());
                 DataOutputStream exit = new DataOutputStream(clientSocket.getOutputStream());
         ) {
-            //Leer la cadena recivida
-            String receivedMessage = entry.readUTF();
-            System.out.println("Mensaje recivido del cliente: " + receivedMessage);
+            while(true) {
+                try {
+                    //Leer la cadena recivida
+                    receivedMessage = entry.readUTF();
+                } catch (EOFException e) {
+                    System.out.println("Conexion con el cliente terminada");
+                    break;
+                }
 
-            //Eliminar las vocales del mensaje
-            String modifiedMessage = removeVowels(receivedMessage);
-            //System.out.println("Mensaje modificado: " + modifiedMessage);
+                if (receivedMessage.equals("*")) {
+                    break;
+                }
 
-            //Enviamos la cadena modificada
-            exit.writeUTF(modifiedMessage);
+                System.out.println("Mensaje recivido del cliente: " + receivedMessage);
+
+                //Eliminar las vocales del mensaje
+                String modifiedMessage = removeVowels(receivedMessage);
+                //System.out.println("Mensaje modificado: " + modifiedMessage);
+
+                //Enviamos la cadena modificada
+                exit.writeUTF(modifiedMessage);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
